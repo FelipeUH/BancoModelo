@@ -1,3 +1,4 @@
+DAO\TransaccionDAO.class
 Controlador\DepositoServlet.class
 Controlador\ConfigurarServlet.class
 Controlador\LogoutServlet.class

@@ -1,15 +1,15 @@
 package Modelo;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Transaccion {
     private int id;
     private int cuentaId;
     private String tipo;
     private double monto;
-    private LocalDate fecha;
-
-    public Transaccion(int id, int cuentaId, String tipo, double monto, LocalDate fecha) {
+    private Date fecha;
+    
+    public Transaccion(int id, int cuentaId, String tipo, double monto, Date fecha) {
         this.id = id;
         this.cuentaId = cuentaId;
         this.tipo = tipo;
@@ -45,10 +45,10 @@ public class Transaccion {
     public void setMonto(double monto) {
         this.monto = monto;
     }
-    public LocalDate getFecha() {
+    public Date getFecha() {
         return fecha;
     }
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 }

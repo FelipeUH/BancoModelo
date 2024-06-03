@@ -1,9 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="Modelo.*, DAO.CuentaDAO, java.util.List" %>
+<%@ page import="Modelo.*, DAO.CuentaDAO, DAO.TransaccionDAO, java.util.List" %>
 <%
     Cliente usuario = null;
     if (session != null) {
         usuario = (Cliente) session.getAttribute("usuario");
+    }
+    
+    if (usuario == null) {
+        response.sendRedirect("login.jsp");
+        return;
     }
     
     CuentaDAO cuentaDAO = new CuentaDAO();
@@ -105,7 +110,7 @@
                                         </select>
                                         <div class="d-grid"><button type="submit">Ingresar</button></div>
                                     </form>
-                                        <br>
+                                    <br>
                                     <!-- Formulario retirar -->
                                     <form action="RetiroServlet" method="POST" style="display:inline;">
                                         <p class="lead fw-normal text-muted mb-0"><b>Retirar:</b></p><br>
@@ -119,6 +124,36 @@
                                         </select>
                                         <div class="d-grid"><button type="submit">Retirar</button></div>
                                     </form>
+                                    <!-- Historial de transacciones -->
+                                    <h3><p class="lead fw-normal text-muted mb-0"><b>Historial de transacciones</b></p></h3>
+                                    <%
+                                        TransaccionDAO transaccionDAO = new TransaccionDAO();
+                                        List<Transaccion> transacciones = transaccionDAO.obtenerTransaccionPorCuenta(cuenta.getCuentaId());
+                                    %>
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Tipo</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (transacciones.isEmpty()) { %>
+                                            <tr>
+                                                <td colspan="3">No hay transacciones.</td>
+                                            </tr>
+                                            <% } else { %>
+                                            <% for (Transaccion transaccion : transacciones) { %>
+                                            <tr>
+                                                <td><%= transaccion.getFecha() %></td>
+                                                <td><%= transaccion.getTipo() %></td>
+                                                <td>$<%= transaccion.getMonto() %></td>
+                                            </tr>
+                                            <% } %>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
                                 </li>
                                 <hr>
                                 <% } %>

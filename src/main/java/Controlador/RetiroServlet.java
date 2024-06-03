@@ -1,6 +1,7 @@
 package Controlador;
 
 import DAO.CuentaDAO;
+import DAO.TransaccionDAO;
 import Modelo.Cuenta;
 
 import java.io.IOException;
@@ -30,6 +31,10 @@ public class RetiroServlet extends HttpServlet {
             
             if(retiroValido) {
                 cuentaDAO.actualizarCuenta(cuenta);
+                
+                TransaccionDAO transaccionDAO = new TransaccionDAO();
+                transaccionDAO.registrarTransaccion(cuentaId, convertirAPesos(cantidad, moneda), "Retiro");
+                
             } else {
                 response.sendRedirect("cuentas.jsp?error=1");
             }
@@ -39,4 +44,16 @@ public class RetiroServlet extends HttpServlet {
         
     }
 
+    private double convertirAPesos(double cantidad, String moneda) {
+        switch (moneda) {
+            case "dolares":
+                return 3800.0 * cantidad;
+            case "euros":
+                return 4200.0 * cantidad;
+            case "pesos":
+            default:
+                return cantidad;
+        }
+    }
+    
 }

@@ -1,6 +1,7 @@
 package Controlador;
 
 import DAO.CuentaDAO;
+import DAO.TransaccionDAO;
 import Modelo.Cuenta;
 
 import java.io.IOException;
@@ -27,10 +28,26 @@ public class DepositoServlet extends HttpServlet {
         if (cuenta != null) {
             cuenta.ingresar(cantidad, moneda);
             cuentaDAO.actualizarCuenta(cuenta);
+            
+            TransaccionDAO transaccionDAO = new TransaccionDAO();
+            transaccionDAO.registrarTransaccion(cuentaId, convertirAPesos(cantidad, moneda), "Ingreso");
+            
         }
         
         response.sendRedirect("cuentas.jsp");
         
     }
 
+    private double convertirAPesos(double cantidad, String moneda) {
+        switch (moneda) {
+            case "dolares":
+                return 3800.0 * cantidad;
+            case "euros":
+                return 4200.0 * cantidad;
+            case "pesos":
+            default:
+                return cantidad;
+        }
+    }
+    
 }

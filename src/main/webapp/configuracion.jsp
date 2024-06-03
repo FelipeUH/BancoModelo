@@ -5,6 +5,10 @@
     if (session != null) {
         usuario = (Cliente) session.getAttribute("usuario");
     }
+    if (usuario == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
