@@ -8,6 +8,45 @@ import Util.DBConnection;
 
 public class CuentaDAO {
     
+    public Cuenta obtenerCuentaPorId(int cuentaId) {
+        String query = "SELECT * FROM cuentas WHERE cuenta_id = ?";
+        Cuenta cuenta = null;
+        
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, cuentaId);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                int id = resultSet.getInt("cuenta_id");
+                int usuarioId = resultSet.getInt("cliente_id");
+                double saldo = resultSet.getDouble("saldo");
+                String tipo = resultSet.getString("tipo_cuenta");
+                Date fechaApertura = resultSet.getDate("fecha_apertura");
+                String estado = resultSet.getString("estado");
+                
+                switch (tipo.toLowerCase()) {
+                    case "ahorros":
+                        cuenta = new CuentaAhorros(cuentaId, usuarioId, tipo, saldo, estado, fechaApertura);
+                        break;
+                    case "corriente":
+                        cuenta = new CuentaCorriente(cuentaId, usuarioId, tipo, saldo, estado, fechaApertura);
+                        break;
+                    case "suprema":
+                        cuenta = new CuentaSuprema(cuentaId, usuarioId, tipo, saldo, estado, fechaApertura);
+                        break;
+                }
+                
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return cuenta;
+    }
+    
     public List<Cuenta> obtenerCuentasPorUsuario(int usuarioId) {
         List<Cuenta> cuentas = new ArrayList<>();
         String query = "SELECT * FROM cuentas WHERE cliente_id = ?";
@@ -46,6 +85,24 @@ public class CuentaDAO {
             e.printStackTrace();
         }
         return cuentas;
+    }
+    
+    public boolean actualizarCuenta(Cuenta cuenta) {
+        String query = "UPDATE cuentas SET saldo = ? WHERE cuenta_id = ?";
+        
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+             
+            statement.setDouble(1, cuenta.getSaldo());
+            statement.setInt(2, cuenta.getCuentaId());
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        
     }
 
     public boolean crearCuenta(Cuenta cuenta) {

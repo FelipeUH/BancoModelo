@@ -1,3 +1,4 @@
+Controlador\DepositoServlet.class
 Controlador\ConfigurarServlet.class
 Controlador\LogoutServlet.class
 Controlador\RegistroServlet.class
@@ -6,6 +7,7 @@ Modelo\Cuenta.class
 Modelo\CuentaAhorros.class
 Modelo\CuentaCorriente.class
 Controlador\CrearCuentaServlet.class
+Controlador\RetiroServlet.class
 Modelo\Cliente.class
 Controlador\LoginServlet.class
 Util\DBConnection.class

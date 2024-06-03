@@ -14,9 +14,9 @@ public abstract class Cuenta {
     protected static Map<String, Double> tipoCambio = new HashMap<>();
     
     static {
-        tipoCambio.put("Dolares", 3800.0);
-        tipoCambio.put("Euros", 4200.0);
-        tipoCambio.put("Pesos", 1.0);
+        tipoCambio.put("dolares", 3800.0);
+        tipoCambio.put("euros", 4200.0);
+        tipoCambio.put("pesos", 1.0);
     }
 
     public Cuenta() {

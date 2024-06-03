@@ -23,6 +23,18 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <script>
+            function showAlert(message) {
+                alert(message);
+            }
+            
+            window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error') && urlParams.get('update') === '1') {
+                showAlert('No tienes el saldo suficiente.');
+            }
+        }
+        </script>
     </head>
     <body class="d-flex flex-column">
         <main class="flex-shrink-0">
@@ -81,7 +93,7 @@
                                     <p class="lead fw-normal text-muted mb-0"><b>Saldo disponible:</b> <%= cuenta.getSaldo() %></p><br>
                                     <p class="lead fw-normal text-muted mb-0"><b>Fecha de apertura</b> <%= cuenta.getFechaApertura() %></p><br>
                                     <!-- Formulario depositar -->
-                                    <form action="IngresoServlet" method="POST" style="display:inline;">
+                                    <form action="DepositoServlet" method="POST" style="display:inline;">
                                         <p class="lead fw-normal text-muted mb-0"><b>Depositar:</b></p><br>
                                         <input type="hidden" name="cuentaId" value="<%= cuenta.getCuentaId() %>">
                                         <input class="form-control" id="cantidad-depositar" name="cantidad-depositar" type="number" placeholder="Cantidad a ingresar" min="0" required />

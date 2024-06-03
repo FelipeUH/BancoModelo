@@ -20,6 +20,14 @@
         <servlet-name>CrearCuentaServlet</servlet-name>
         <servlet-class>Controlador.CrearCuentaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DepositoServlet</servlet-name>
+        <servlet-class>Controlador.DepositoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RetiroServlet</servlet-name>
+        <servlet-class>Controlador.RetiroServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistroServlet</servlet-name>
         <url-pattern>/RegistroServlet</url-pattern>
@@ -39,6 +47,14 @@
     <servlet-mapping>
         <servlet-name>CrearCuentaServlet</servlet-name>
         <url-pattern>/CrearCuentaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DepositoServlet</servlet-name>
+        <url-pattern>/DepositoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RetiroServlet</servlet-name>
+        <url-pattern>/RetiroServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
