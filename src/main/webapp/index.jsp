@@ -27,8 +27,11 @@
             if (urlParams.has('update') && urlParams.get('update') === 'success') {
                 showAlert('Los datos se actualizaron correctamente.');
             }
-            if (urlParams.has('login') $$ urlParams.get('login') === '1') {
+            else if (urlParams.has('login') $$ urlParams.get('login') === '1') {
                 showAlert('Has iniciado sesion correctamente.');
+            }
+            else if (urlParams.has('registrado') && urlParams.get('registrado') === '1') {
+                showAlert('Te has registrado correctamente');
             }
         }
         </script>

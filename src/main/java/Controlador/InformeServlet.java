@@ -35,7 +35,7 @@ public class InformeServlet extends HttpServlet {
             request.setAttribute("transaccionesDelDia", transaccionesDelDia);
             request.setAttribute("totalRecaudado", totalRecaudado);
             request.setAttribute("totalRetirado", totalRetirado);
-
+            
             request.getRequestDispatcher("informes.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();

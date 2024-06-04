@@ -13,7 +13,7 @@ public class InformeDAO {
     
     public List<Cliente> obtenerClientesAtendidosHoy() throws SQLException {
         List<Cliente> clientes = new ArrayList<>();
-        String query = "SELECT c.* FROM clientes c JOIN cuentas cu ON c.cliente_id = cu.cliente_id JOIN transaccionesbanco t ON cu.cuenta_id = t.cuenta_id WHERE t.fecha_transaccion = CURDATE()";
+        String query = "SELECT DISTINCT c.* FROM clientes c JOIN cuentas cu ON c.cliente_id = cu.cliente_id JOIN transaccionesbanco t ON cu.cuenta_id = t.cuenta_id WHERE t.fecha_transaccion = CURDATE()";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);

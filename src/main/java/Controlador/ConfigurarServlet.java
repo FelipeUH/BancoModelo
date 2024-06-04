@@ -38,7 +38,7 @@ public class ConfigurarServlet extends HttpServlet {
             usuario.setContrasena(password);
             session.setAttribute("usuario", usuario);
             
-            response.sendRedirect("index.jsp?update=success");
+            response.sendRedirect("index.jsp?update=1");
         } else {
             response.sendRedirect("configuracion.jsp?error=1");
         }

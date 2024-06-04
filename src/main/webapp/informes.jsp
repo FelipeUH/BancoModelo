@@ -1,10 +1,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="jakarta.servlet.http.*,jakarta.servlet.*, Modelo.Cliente, Modelo.Transaccion" %>
+<%@page import="jakarta.servlet.http.*,jakarta.servlet.*, Modelo.Cliente, Modelo.Transaccion, java.util.List, java.util.ArrayList, java.text.DecimalFormat" %>
 <% 
     Cliente usuario = null;
     if (session != null) {
         usuario = (Cliente) session.getAttribute("usuario");
     }
+    
+    DecimalFormat df = new DecimalFormat("#,###.00");
+    
+    List<Cliente> clientesAtendidosHoy = (ArrayList) request.getAttribute("clientesAtendidosHoy");
+    List<Transaccion> transaccionesDelDia = (ArrayList) request.getAttribute("transaccionesDelDia");
+    double totalRecaudado = (double) request.getAttribute("totalRecaudado");
+    double totalRetirado = (double) request.getAttribute("totalRetirado");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,16 +73,15 @@
                     <div class="row gx-5 align-items-center">
                         <div class="col-lg-6">
                             <h2 class="fw-bolder">Clientes atendidos hoy</h2>
-                            <c:if test="${not empty clientesAtendidosHoy}">
-                                <ul>
-                                    <c:forEach var="cliente" items="${clientesAtendidosHoy}">
-                                        <li>${cliente.nombre} (${cliente.email})</li>
-                                    </c:forEach>
-                                </ul>
-                            </c:if>
-                            <c:if test="${empty clientesAtendidosHoy}">
+                            <% if(clientesAtendidosHoy.isEmpty()) { %>
                                 <p class="lead fw-normal text-muted mb-0">No se atendieron clientes hoy.</p>
-                            </c:if>
+                            <% } else { %>
+                            <ul>
+                                <% for (Cliente cliente : clientesAtendidosHoy) { %>
+                                    <li><%= cliente.getNombre() %> <%= cliente.getApellido() %> (<%= cliente.getEmail()%>)</li>
+                                <% } %>
+                            </ul>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -86,7 +92,9 @@
                     <div class="row gx-5 align-items-center">
                         <div class="col-lg-6">
                             <h2 class="fw-bolder">Transacciones del dia</h2>
-                            <c:if test="${not empty transaccionesDelDia}">
+                            <% if (transaccionesDelDia.isEmpty()) { %>
+                                <p class="lead fw-normal text-muted mb-0">No se realizaron transacciones hoy.</p>
+                            <% } else { %>
                                 <table border="1">
                                     <tr>
                                         <th>ID Transacción</th>
@@ -95,20 +103,17 @@
                                         <th>Tipo de Transacción</th>
                                         <th>Fecha de Transacción</th>
                                     </tr>
-                                    <c:forEach var="transaccion" items="${transaccionesDelDia}">
+                                    <% for (Transaccion transaccion : transaccionesDelDia) {%>
                                         <tr>
-                                            <td>${transaccion.id}</td>
-                                            <td>${transaccion.cuentaId}</td>
-                                            <td>${transaccion.monto}</td>
-                                            <td>${transaccion.tipoTransaccion}</td>
-                                            <td>${transaccion.fechaTransaccion}</td>
+                                            <td><%= transaccion.getId()%></td>
+                                            <td><%= transaccion.getCuentaId()%></td>
+                                            <td><%= df.format(transaccion.getMonto())%></td>
+                                            <td><%= transaccion.getTipo()%></td>
+                                            <td><%= transaccion.getFecha()%></td>
                                         </tr>
-                                    </c:forEach>
+                                    <% } %>
                                 </table>
-                            </c:if>
-                            <c:if test="${empty transaccionesDelDia}">
-                                <p class="lead fw-normal text-muted mb-0">No se realizaron transacciones hoy.</p>
-                            </c:if>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -119,8 +124,8 @@
                     <div class="row gx-5 align-items-center">
                         <div class="col-lg-6">
                             <h2 class="fw-bolder">Arqueo de caja</h2>
-                            <p class="lead fw-normal text-muted mb-0">Total Recaudado Hoy: ${totalRecaudado}</p>
-                            <p class="lead fw-normal text-muted mb-0">Total Retirado Hoy: ${totalRetirado}</p>
+                            <p class="lead fw-normal text-muted mb-0">Total Recaudado Hoy: <%= df.format(totalRecaudado)%></p>
+                            <p class="lead fw-normal text-muted mb-0">Total Retirado Hoy: <%= df.format(totalRetirado)%></p>
                         </div>
                     </div>
                 </div>
