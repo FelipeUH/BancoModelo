@@ -33,7 +33,8 @@
                             <li class="nav-item"><a class="nav-link" href="index.jsp">Inicio</a></li>
                             <li class="nav-item"><a class="nav-link" href="politicas.jsp">Politicas</a></li>
                             <% if (usuario != null) { %>
-                            <li class="nav-item"><a class="nav-link" href="pricing.html">Tus cuentas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="cuentas.jsp">Tus cuentas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="InformeServlet">Informes</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">

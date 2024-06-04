@@ -31,15 +31,27 @@ public abstract class Cuenta {
         this.fechaApertura = fechaApertura;
     }
     
-    public abstract void cobrarComision();
+    public abstract double cobrarComision();
     
     public double convertirAPesos(double cantidad, String moneda) {
         return cantidad * tipoCambio.get(moneda);
     }
     
+    public void ingresar(double cantidad) {
+        this.saldo += cantidad;
+    }
+    
     public void ingresar(double cantidad, String moneda) {
         double cantidadEnPesos = convertirAPesos(cantidad, moneda);
         this.saldo += cantidadEnPesos;
+    }
+    
+    public boolean retirar(double cantidad) {
+        if (this.saldo >= cantidad) {
+            this.saldo -= cantidad;
+            return true;
+        }
+        return false;
     }
     
     public boolean retirar(double cantidad, String moneda) {

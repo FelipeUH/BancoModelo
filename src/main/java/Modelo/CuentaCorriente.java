@@ -12,9 +12,10 @@ public class CuentaCorriente extends Cuenta {
     }
     
     @Override
-    public void cobrarComision() {
+    public double cobrarComision() {
         double comision = 10000.0;
         this.setSaldo(this.getSaldo() - comision);
+        return comision;
     }
     
 }

@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="Modelo.*, DAO.CuentaDAO, DAO.TransaccionDAO, java.util.List" %>
+<%@ page import="Modelo.*, DAO.CuentaDAO, DAO.TransaccionDAO, java.util.List, java.text.DecimalFormat" %>
 <%
     Cliente usuario = null;
     if (session != null) {
@@ -10,6 +10,8 @@
         response.sendRedirect("login.jsp");
         return;
     }
+    
+    DecimalFormat df = new DecimalFormat("#,###.00");
     
     CuentaDAO cuentaDAO = new CuentaDAO();
     List<Cuenta> cuentas = cuentaDAO.obtenerCuentasPorUsuario(usuario.getId());
@@ -35,7 +37,7 @@
             
             window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('error') && urlParams.get('update') === '1') {
+            if (urlParams.has('error') && urlParams.get('error') === '1') {
                 showAlert('No tienes el saldo suficiente.');
             }
         }
@@ -54,6 +56,7 @@
                             <li class="nav-item"><a class="nav-link" href="politicas.jsp">Politicas</a></li>
                             <% if (usuario != null) { %>
                             <li class="nav-item"><a class="nav-link" href="cuentas.jsp">Tus cuentas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="InformeServlet">Informes</a></li>
                                 <li class="nav-item dropdown">
 
                                     <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
@@ -95,7 +98,8 @@
                                 <li>
                                     <p class="lead fw-normal text-muted mb-0"><b>Cuenta <%= contador %></b></p><br>
                                     <p class="lead fw-normal text-muted mb-0"><b>Tipo de Cuenta:</b> <%= cuenta.getTipo() %></p><br>
-                                    <p class="lead fw-normal text-muted mb-0"><b>Saldo disponible:</b> <%= cuenta.getSaldo() %></p><br>
+                                    <p class="lead fw-normal text-muted mb-0"><b>Saldo disponible:</b> <%= df.format(cuenta.getSaldo()) %> COP</p><br>
+                                    <p class="lead fw-normal text-muted mb-0"><b>Estado:</b> <%= cuenta.getEstado() %></p><br>
                                     <p class="lead fw-normal text-muted mb-0"><b>Fecha de apertura</b> <%= cuenta.getFechaApertura() %></p><br>
                                     <!-- Formulario depositar -->
                                     <form action="DepositoServlet" method="POST" style="display:inline;">
@@ -148,7 +152,7 @@
                                             <tr>
                                                 <td><%= transaccion.getFecha() %></td>
                                                 <td><%= transaccion.getTipo() %></td>
-                                                <td>$<%= transaccion.getMonto() %></td>
+                                                <td>$<%= df.format(transaccion.getMonto()) %> COP</td>
                                             </tr>
                                             <% } %>
                                             <% } %>

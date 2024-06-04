@@ -12,9 +12,10 @@ public class CuentaSuprema extends Cuenta {
     }
     
     @Override
-    public void cobrarComision() {
+    public double cobrarComision() {
         double comision = 50000.0;
         this.setSaldo(this.getSaldo() - comision);
+        return comision;
     }
     
 }

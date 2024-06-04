@@ -27,7 +27,7 @@
             if (urlParams.has('update') && urlParams.get('update') === 'success') {
                 showAlert('Los datos se actualizaron correctamente.');
             }
-            if (urlParams.has('login') $$ urlParams.get('login') === 'success') {
+            if (urlParams.has('login') $$ urlParams.get('login') === '1') {
                 showAlert('Has iniciado sesion correctamente.');
             }
         }
@@ -46,6 +46,7 @@
                             <li class="nav-item"><a class="nav-link" href="politicas.jsp">Politicas</a></li>
                             <% if (usuario != null) { %>
                             <li class="nav-item"><a class="nav-link" href="cuentas.jsp">Tus cuentas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="InformeServlet">Informes</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">

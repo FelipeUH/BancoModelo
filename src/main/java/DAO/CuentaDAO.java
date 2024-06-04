@@ -8,6 +8,45 @@ import Util.DBConnection;
 
 public class CuentaDAO {
     
+    public List<Cuenta> obtenerTodasLasCuentas() {
+        List<Cuenta> cuentas = new ArrayList<>();
+        String query = "SELECT * FROM cuentas";
+        
+        try (Connection connection = DBConnection.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                
+                Cuenta cuenta = null;
+                String tipo = resultSet.getString("tipo_cuenta");
+                
+                switch (tipo.toLowerCase()) {
+                    case "ahorros":
+                        cuenta = new CuentaAhorros();
+                        break;
+                    case "corriente":
+                        cuenta = new CuentaCorriente();
+                    case "suprema":
+                        cuenta = new CuentaSuprema();
+                    default:
+                }
+                
+                cuenta.setCuentaId(resultSet.getInt("cuenta_id"));
+                cuenta.setClienteId(resultSet.getInt("cliente_id"));
+                cuenta.setTipo(tipo);
+                cuenta.setSaldo(resultSet.getDouble("saldo"));
+                cuenta.setEstado(resultSet.getString("estado"));
+                cuenta.setFechaApertura(resultSet.getDate("fecha_apertura"));
+                
+                cuentas.add(cuenta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cuentas;
+    }
+    
     public Cuenta obtenerCuentaPorId(int cuentaId) {
         String query = "SELECT * FROM cuentas WHERE cuenta_id = ?";
         Cuenta cuenta = null;
@@ -124,4 +163,5 @@ public class CuentaDAO {
             return false;
         }
     }
+    
 }

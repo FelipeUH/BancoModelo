@@ -41,9 +41,9 @@ public class LoginServlet extends HttpServlet {
             Cliente usuario = new Cliente(nombre, apellido, ciudad, telefono, email, password);
             usuario.setId(id);
             session.setAttribute("usuario", usuario);
-            response.sendRedirect("index.jsp?login=success");
+            response.sendRedirect("index.jsp?login=1");
         } else {
-            response.sendRedirect("login.jsp?error=true");
+            response.sendRedirect("login.jsp?error=1");
         }
         
     }

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <listener>
+        <listener-class>Listeners.MantenimientoMensualTask</listener-class>
+    </listener>
     <servlet>
         <servlet-name>RegistroServlet</servlet-name>
         <servlet-class>Controlador.RegistroServlet</servlet-class>
@@ -28,6 +31,14 @@
         <servlet-name>RetiroServlet</servlet-name>
         <servlet-class>Controlador.RetiroServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ValidarAutenticacionServlet</servlet-name>
+        <servlet-class>Controlador.ValidarAutenticacionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InformeServlet</servlet-name>
+        <servlet-class>Controlador.InformeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistroServlet</servlet-name>
         <url-pattern>/RegistroServlet</url-pattern>
@@ -55,6 +66,14 @@
     <servlet-mapping>
         <servlet-name>RetiroServlet</servlet-name>
         <url-pattern>/RetiroServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidarAutenticacionServlet</servlet-name>
+        <url-pattern>/ValidarAutenticacionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformeServlet</servlet-name>
+        <url-pattern>/InformeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
