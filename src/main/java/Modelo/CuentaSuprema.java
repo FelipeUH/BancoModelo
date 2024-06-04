@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class CuentaSuprema extends Cuenta {
 
+    private final double COMISION = 50000.0;
+    
     public CuentaSuprema() {
     }
 
@@ -13,9 +15,8 @@ public class CuentaSuprema extends Cuenta {
     
     @Override
     public double cobrarComision() {
-        double comision = 50000.0;
-        this.setSaldo(this.getSaldo() - comision);
-        return comision;
+        this.setSaldo(this.getSaldo() - COMISION);
+        return COMISION;
     }
     
 }
