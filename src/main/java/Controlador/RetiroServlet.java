@@ -67,7 +67,7 @@ public class RetiroServlet extends HttpServlet {
                 cuentaDAO.actualizarCuenta(cuenta);
 
                 TransaccionDAO transaccionDAO = new TransaccionDAO();
-                transaccionDAO.registrarTransaccion(cuentaId, -cantidadEnPesos + comision, "Retiro");
+                transaccionDAO.registrarTransaccion(cuentaId, -cantidadEnPesos, "Retiro");
                 transaccionDAO.registrarTransaccion(cuentaId, -comision, "Comision");
                 
             } else {

@@ -71,7 +71,7 @@ public class ValidarAutenticacionServlet extends HttpServlet {
             if (cuenta != null && cuenta.getSaldo() >= (cantidad + comision)) {
                 cuenta.retirar(cantidad + comision);
                 cuentaDAO.actualizarCuenta(cuenta);
-                transaccionDAO.registrarTransaccion(cuentaId, -cantidad + comision, "Retiro");
+                transaccionDAO.registrarTransaccion(cuentaId, -cantidad, "Retiro");
                 transaccionDAO.registrarTransaccion(cuentaId, -comision, "Comision");
                 session.setAttribute("mensaje", "Retiro realizado con éxito.");
             } else {
