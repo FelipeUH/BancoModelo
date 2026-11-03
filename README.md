@@ -37,6 +37,98 @@ src/main/java/
 src/main/webapp/   → Vistas JSP, CSS y JS
 ```
 
+### Flujo de una operación
+
+Las vistas JSP envían el formulario a un servlet, que usa el modelo para la lógica y los DAO para persistir. El cobro mensual sigue el mismo camino, pero lo dispara un `ServletContextListener` con un `Timer`:
+
+```mermaid
+flowchart LR
+    V["Vista JSP<br/>cuentas.jsp"] -->|"POST /DepositoServlet"| S[Servlet]
+    S --> M["Modelo<br/>Cuenta.ingresar()"]
+    S --> D["DAO<br/>CuentaDAO · TransaccionDAO"]
+    D -->|"JDBC<br/>PreparedStatement"| DB[(MariaDB)]
+    S -->|redirect| V
+
+    L["MantenimientoMensualTask<br/>(Timer mensual)"] --> CM[CobrarMantenimiento]
+    CM -->|"cobrarComision()"| M
+    CM --> D
+```
+
+### Modelo de dominio
+
+```mermaid
+classDiagram
+    class Cuenta {
+        <<abstract>>
+        -int cuentaId
+        -int clienteId
+        -double saldo
+        -String estado
+        +cobrarComision()* double
+        +ingresar(cantidad)
+        +ingresar(cantidad, moneda)
+        +retirar(cantidad) boolean
+        +retirar(cantidad, moneda) boolean
+        +convertirAPesos(cantidad, moneda) double
+    }
+    class CuentaAhorros {
+        +cobrarComision() double
+    }
+    class CuentaCorriente {
+        +cobrarComision() double
+    }
+    class CuentaSuprema {
+        +cobrarComision() double
+    }
+    class Cliente {
+        -int id
+        -String nombre
+        -String email
+    }
+    class Transaccion {
+        -int id
+        -int cuentaId
+        -String tipo
+        -double monto
+    }
+    Cuenta <|-- CuentaAhorros
+    Cuenta <|-- CuentaCorriente
+    Cuenta <|-- CuentaSuprema
+    Cliente "1" <.. "*" Cuenta : clienteId
+    Cuenta "1" <.. "*" Transaccion : cuentaId
+```
+
+### Modelo de datos
+
+```mermaid
+erDiagram
+    clientes ||--o{ cuentas : tiene
+    cuentas ||--o{ transaccionesbanco : registra
+
+    clientes {
+        int cliente_id PK
+        varchar nombre
+        varchar apellido
+        varchar email UK
+        varchar contrasena
+    }
+    cuentas {
+        int cuenta_id PK
+        int cliente_id FK
+        varchar tipo_cuenta
+        varchar estado
+        double saldo
+        date fecha_apertura
+    }
+    transaccionesbanco {
+        int transaccion_id PK
+        int cuenta_id FK
+        varchar tipo_transaccion
+        double monto
+        date fecha_transaccion
+    }
+```
+
 ### Conceptos de POO aplicados
 
 - **Herencia y polimorfismo**: `Cuenta` es abstracta y define `cobrarComision()`. Cada tipo de cuenta lo implementa con su propia tarifa, y el servicio de mantenimiento recorre todas las cuentas sin saber de qué tipo es cada una.
